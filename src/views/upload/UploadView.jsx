@@ -1,30 +1,28 @@
 import React from 'react'
 import { useAppStore } from 'store/app/AppStore'
 import { uploadDocument } from 'store/app/AppActions'
+import DocumentPreview from 'components/upload/DocumentPreview/DocumentPreview'
 
 function UploadView(props) {
-    const [, dispatch] = useAppStore()
-    function handleSubmit(e) {
+    const [state, dispatch] = useAppStore()
+    function handleFile(e) {
         e.preventDefault()
-        const data = new FormData(e.target)
-        const document = data.get('document')
-        if (document) {
-            dispatch(uploadDocument(document))
-            e.target.reset()
-        } else {
-            alert('Select a document to upload')
+        const file = e.target.files[0]
+        if (file) {
+            dispatch(uploadDocument(file))
         }
     }
     return (
         <div>
             <h1>Let's upload a document</h1>
-            <form onSubmit={handleSubmit}>
+            {state.document ? (
+                <DocumentPreview file={state.document} />
+            ) : (
                 <label>
                     <b>Select document</b>
-                    <input type="file" name="document" />
+                    <input type="file" name="document" onChange={handleFile} />
                 </label>
-                <button>Upload</button>
-            </form>
+            )}
         </div>
     )
 }
