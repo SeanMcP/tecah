@@ -1,10 +1,11 @@
 import React from 'react'
-import { AppStoreProvider } from './store/app/AppStore'
+import { AppStoreProvider } from 'store/app/AppStore'
+import Router from 'routing/Router'
 
 function App() {
     return (
         <AppStoreProvider>
-            <div className="App">Hello world</div>
+            <Router />
         </AppStoreProvider>
     )
 }
